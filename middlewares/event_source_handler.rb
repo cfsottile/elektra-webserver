@@ -27,7 +27,6 @@ class EventSourceHandler
     end
 
     def target(env)
-        # extract ES data from URL
-        "a911"
+        request.url.split('/').last
     end
 end

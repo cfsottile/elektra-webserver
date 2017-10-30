@@ -9,10 +9,6 @@ class MeasureController
     Measure.json_store_many(measures)
   end
   
-  def self.consumption_from_to(from, to, precision, sensor_id)
-    Measure.consumption_from_to(from, to, precision, sensor_id)
-  end
-  
   private
   def self.parse_json_one(env)
     measure = JSON.parse(Rack::Request.new(env).body.read)

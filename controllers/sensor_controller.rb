@@ -13,6 +13,10 @@ class SensorController
     Sensor.json_last_measure(id)
   end
 
+  def self.consumption_from_to(from, to, precision, sensor_id)
+    Sensor.consumption_from_to(from, to, precision, sensor_id)
+  end
+
   def self.turn_on(id)
     JSON.generate({result: "WIP"})
   end

@@ -111,7 +111,7 @@ def self.find_with_data(id)
           "time" => { "$first" => "$time" } }},
         { "$sort" => { "time" => 1 }},
         { "$project" => { 
-          "time" => { "$add" => ["$time", OFFSET]},
+          "time" => { "$subtract" => ["$time", OFFSET]},
           "avg" => 1}},
         { "$project" => { 
           "date" => { 

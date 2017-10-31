@@ -19,6 +19,10 @@ class Sensor
       .to_json
   end
 
+  def self.exists(id)
+    $db["sensors"].find({id: id}).to_a.first != nil
+  end
+
   def self.consumption_from_to(id, raw_from, raw_to, precision)
     binding.pry
     self

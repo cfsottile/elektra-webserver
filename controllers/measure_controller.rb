@@ -10,16 +10,19 @@ class MeasureController
   end
   
   private
-  def self.parse_json_one(env)
-    measure = JSON.parse(Rack::Request.new(env).body.read)
+  def fix_measure(measure)
     measure["time"] = Time.at(measure["time"])
     measure
   end
 
+  def self.parse_json_one(env)
+    measure = JSON.parse(Rack::Request.new(env).body.read)
+    self.fix_measure(measure)
+  end
+
   def self.parse_json_many(env)
     measures = JSON.parse(Rack::Request.new(env).body.read)
-    measures.map { |m| m["time"] = Time.at(m["time"]); m }
-    measures
+    measures.map { |m| self.fix_measure(m) }
   end
 end
     

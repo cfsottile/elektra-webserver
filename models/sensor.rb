@@ -1,21 +1,19 @@
 class Sensor
   def self.json_show(id)
-    self.gen_json_sensor(self.find_with_data(id))
+    gen_json_sensor(find_with_data(id))
   end
 
   def self.json_last_measure(id)
-    self
-      .last_measure_for(id)
+    last_measure_for(id)
       .to_a
       .first
       .to_json
   end
 
   def self.json_index
-    self
-      .all_with_data
+    all_with_data
       .to_a
-      .map { |s| self.gen_json_sensor(s) }
+      .map { |s| gen_json_sensor(s) }
       .to_json
   end
 
@@ -24,11 +22,9 @@ class Sensor
   end
 
   def self.consumption_from_to(id, raw_from, raw_to, precision)
-    binding.pry
-    self
-      .averaged_measures(id, DateTime.rfc3339(raw_from), DateTime.rfc3339(raw_to), precision)
+    averaged_measures(id, DateTime.rfc3339(raw_from), DateTime.rfc3339(raw_to), precision)
       .to_a
-      .map {|m| self.format_averaged_measure(m)}
+      .map {|m| format_averaged_measure(m)}
       .to_json
   end
 
@@ -37,13 +33,13 @@ class Sensor
     result = {
       id: sensor_data["id"],
       name: sensor_data["name"],
-      status: sensor["status"] == 1 ? "on" : "off",
+      status: sensor_data["status"] == 1 ? "on" : "off",
       # location: $db["places"].find({id: sensor_data["mote"].first["location"]}).to_a.first["name"],
       # mote_id: sensor_data["mote"].first["id"],
       mote_name: sensor_data["mote"].first["name"]
     }
     if sensor_data["last_measure"].first
-      result["last_measure"] = {
+      result[:last_measure] = {
         time: sensor_data["last_measure"].first["time"],
         value: sensor_data["last_measure"].first["value"]
       }
@@ -52,18 +48,20 @@ class Sensor
   end
 
   LAST_MEASURES_AGGREGATION =
-    {"$lookup":
+    {"$lookup" =>
       {from: "last_measures", localField: "sensor_id", foreignField: "id", as: "last_measure"}
     }
   MOTES_AGGREGATION =
-    {"$lookup":
+    {"$lookup" =>
       {from: "motes", localField: "mote_id", foreignField: "id", as: "mote"}
     }
 
-def self.find_with_data(id)
+  def self.find_with_data(id)
     $db["sensors"]
-      .find({id: id})
-      .aggregate([MOTES_AGGREGATION, LAST_MEASURES_AGGREGATION])
+      .aggregate([
+        MOTES_AGGREGATION,
+        LAST_MEASURES_AGGREGATION,
+        { "$match" => { "id" => id }}])
       .to_a.first
   end
 
@@ -110,7 +108,7 @@ def self.find_with_data(id)
       .aggregate([
         { "$match" => { "time" => { "$gt" => from, "$lt" => to}}},
         { "$group" => {
-          "_id" => self.precision_query(precision),
+          "_id" => precision_query(precision),
           "avg" => { "$avg" => "$value" },
           "time" => { "$first" => "$time" } }},
         { "$sort" => { "time" => 1 }},
@@ -119,7 +117,7 @@ def self.find_with_data(id)
           "avg" => 1}},
         { "$project" => { 
           "date" => { 
-            "$dateToString" => { "format" => self.format_date(precision), "date" => "$time" }},
+            "$dateToString" => { "format" => format_date(precision), "date" => "$time" }},
           "avg" => 1}}
       ])
   end

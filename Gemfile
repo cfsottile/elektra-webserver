@@ -7,8 +7,9 @@ gem "faye-websocket"
 gem "thin"
 gem "rack-cors"
 gem 'mongo', '~> 2.1'
+gem "rspec"
+gem "dry-monads"
 
 group :development do
-    gem "pry"
+  gem "pry"
 end
-  

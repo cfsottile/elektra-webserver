@@ -14,7 +14,7 @@ class EventSourceHandler
 
       id = target(env)
       loop = EM.add_periodic_timer(1) { es.send(Sensor.json_last_measure(id)) }
-      
+
       es.on :close do |ev|
         EM.cancel_timer(loop)
         es = nil
@@ -27,6 +27,6 @@ class EventSourceHandler
   end
 
   def target(env)
-    request.url.split('/').last
+    Request.new(env).base_url.split('/').last
   end
 end

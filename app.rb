@@ -1,10 +1,25 @@
-require "bundler"
-Bundler.require
 require_relative "controllers/sensor_controller"
 
 require 'sinatra/base'
 
 class App < Sinatra::Base
+
+  set :bind, '0.0.0.0'
+  configure do
+    enable :cross_origin
+  end
+  before do
+    response.headers['Access-Control-Allow-Origin'] = '*'
+  end
+
+  # routes...
+  options "*" do
+    response.headers["Allow"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    200
+  end
+
   get "/prueba" do
     send_file "pruebas/index.html"
   end
@@ -28,7 +43,7 @@ class App < Sinatra::Base
   get "/sensor/:id/turn_on" do |id|
     SensorController.turn_on(id)
   end
-  
+
   get "/sensor/:id/turn_off" do |id|
     SensorController.turn_off(id)
   end

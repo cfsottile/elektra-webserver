@@ -27,6 +27,6 @@ class EventSourceHandler
   end
 
   def target(env)
-    Rack::Request.new(env).base_url.split('/').last
+    Rack::Request.new(env).path_info.split("/")[1]
   end
 end

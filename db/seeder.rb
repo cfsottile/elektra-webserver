@@ -2145,3 +2145,26 @@ db["measures"].insert_many([
     "value" => 6.4
   }
 ])
+
+db["last_measures"].insert_many([
+  {
+    "sensor_id" => "a911",
+    "time" => Time.at(1470019800).utc.to_datetime,
+    "value" => 7.9
+  },
+  {
+    "sensor_id" => "a915",
+    "time" => Time.at(1470019800).utc.to_datetime,
+    "value" => 2.7
+  },
+  {
+    "sensor_id" => "a511",
+    "time" => Time.at(1470019800).utc.to_datetime,
+    "value" => 4.1
+  },
+  {
+    "sensor_id" => "a514",
+    "time" => Time.at(1470019800).utc.to_datetime,
+    "value" => 6.4
+  }
+])

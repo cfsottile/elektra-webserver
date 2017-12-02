@@ -24,39 +24,39 @@ class App < Sinatra::Base
   end
 
   get "/sensors" do
-    SensorsController.index
+    SensorsController.instance.index
   end
 
   get "/sensors/:id" do |id|
-    SensorsController.show(id)
+    SensorsController.instance.show(id)
   end
 
   post "/sensors" do
-    SensorsController.create(parse_body)
+    SensorsController.instance.create(parse_body)
   end
 
   patch "/sensors/:id" do |id|
-    SensorsController.update(id, parse_body)
+    SensorsController.instance.update(id, parse_body)
   end
 
   delete "/sensors/:id" do |id|
-    SensorsController.destroy(id)
+    SensorsController.instance.destroy(id)
   end
 
   get "/sensors/:id/last" do |id|
-    SensorsController.last_measure(id)
+    SensorsController.instance.last_measure(id)
   end
 
   get "/sensors/:id/lapse/from/:from/to/:to/precision/:precision" do |id, from, to, precision|
-    SensorsController.consumption_from_to(id, from, to, precision)
+    SensorsController.instance.consumption_from_to(id, from, to, precision)
   end
 
   get "/sensors/:id/turn_on" do |id|
-    SensorsController.turn_on(id)
+    SensorsController.instance.turn_on(id)
   end
 
   get "/sensors/:id/turn_off" do |id|
-    SensorsController.turn_off(id)
+    SensorsController.instance.turn_off(id)
   end
 
   post "/measures/one" do
@@ -68,42 +68,42 @@ class App < Sinatra::Base
   end
 
   get "/places" do
-    PlacesController.index
+    PlacesController.instance.index
   end
 
   get "/places/:id" do |id|
-    PlacesController.show(id)
+    PlacesController.instance.show(id)
   end
 
   post "/places" do
-    PlacesController.create(parse_body)
+    PlacesController.instance.create(parse_body)
   end
 
   patch "/places/:id" do |id|
-    PlacesController.update(id, parse_body)
+    PlacesController.instance.update(id, parse_body)
   end
 
   delete "/places/:id" do |id|
-    PlacesController.destroy(id)
+    PlacesController.instance.destroy(id)
   end
 
   get "/devices" do
-    DevicesController.index
+    DevicesController.instance.index
   end
 
   get "/devices/:id" do |id|
-    DevicesController.show(id)
+    DevicesController.instance.show(id)
   end
 
   post "/devices" do
-    DevicesController.create(parse_body)
+    DevicesController.instance.create(parse_body)
   end
 
   patch "/devices/:id" do |id|
-    DevicesController.update(id, parse_body)
+    DevicesController.instance.update(id, parse_body)
   end
 
   delete "/devices/:id" do |id|
-    DevicesController.destroy(id)
+    DevicesController.instance.destroy(id)
   end
 end

@@ -22,35 +22,35 @@ class App < Sinatra::Base
     send_file "pruebas/index.html"
   end
 
-  get "/sensor" do
+  get "/sensors" do
     SensorController.index
   end
 
-  get "/sensor/:id" do |id|
+  get "/sensors/:id" do |id|
     SensorController.show(id)
   end
 
-  get "/sensor/:id/last" do |id|
+  get "/sensors/:id/last" do |id|
     SensorController.last_measure(id)
   end
 
-  get "/sensor/:id/lapse/from/:from/to/:to/precision/:precision" do |id, from, to, precision|
+  get "/sensors/:id/lapse/from/:from/to/:to/precision/:precision" do |id, from, to, precision|
     SensorController.consumption_from_to(id, from, to, precision)
   end
 
-  get "/sensor/:id/turn_on" do |id|
+  get "/sensors/:id/turn_on" do |id|
     SensorController.turn_on(id)
   end
 
-  get "/sensor/:id/turn_off" do |id|
+  get "/sensors/:id/turn_off" do |id|
     SensorController.turn_off(id)
   end
 
-  post "/measure/one" do
+  post "/measures/one" do
     MeasureController.store(env)
   end
 
-  post "/measure/many" do
+  post "/measures/many" do
     MeasureController.store_many(env)
   end
 

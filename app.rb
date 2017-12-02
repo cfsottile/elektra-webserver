@@ -1,6 +1,6 @@
 require_relative "controllers/places_controller"
 require_relative "controllers/devices_controller"
-require_relative "controllers/sensor_controller"
+require_relative "controllers/sensors_controller"
 
 # require 'sinatra'
 # require 'sinatra/base'
@@ -24,27 +24,39 @@ class App < Sinatra::Base
   end
 
   get "/sensors" do
-    SensorController.index
+    SensorsController.index
   end
 
   get "/sensors/:id" do |id|
-    SensorController.show(id)
+    SensorsController.show(id)
+  end
+
+  post "/sensors" do
+    SensorsController.create(parse_body)
+  end
+
+  patch "/sensors/:id" do |id|
+    SensorsController.update(id, parse_body)
+  end
+
+  delete "/sensors/:id" do |id|
+    SensorsController.destroy(id)
   end
 
   get "/sensors/:id/last" do |id|
-    SensorController.last_measure(id)
+    SensorsController.last_measure(id)
   end
 
   get "/sensors/:id/lapse/from/:from/to/:to/precision/:precision" do |id, from, to, precision|
-    SensorController.consumption_from_to(id, from, to, precision)
+    SensorsController.consumption_from_to(id, from, to, precision)
   end
 
   get "/sensors/:id/turn_on" do |id|
-    SensorController.turn_on(id)
+    SensorsController.turn_on(id)
   end
 
   get "/sensors/:id/turn_off" do |id|
-    SensorController.turn_off(id)
+    SensorsController.turn_off(id)
   end
 
   post "/measures/one" do

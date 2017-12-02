@@ -15,6 +15,7 @@ class Device < ActiveRecord::Base
   private
   def hash_data
     {
+      id: id,
       name: name,
       description: description
     }

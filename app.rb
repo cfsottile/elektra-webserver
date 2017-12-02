@@ -1,4 +1,5 @@
 require_relative "controllers/sensor_controller"
+require_relative "controllers/places_controller"
 
 # require 'sinatra'
 # require 'sinatra/base'
@@ -6,6 +7,16 @@ require_relative "controllers/sensor_controller"
 
 class App < Sinatra::Base
   # register Sinatra::ActiveRecordExtension
+
+  before do
+    content_type 'application/json'
+  end
+
+  helpers do
+    def parse_body
+      JSON.parse(request.body.read)
+    end
+  end
 
   get "/prueba" do
     send_file "pruebas/index.html"
@@ -41,5 +52,29 @@ class App < Sinatra::Base
 
   post "/measure/many" do
     MeasureController.store_many(env)
+  end
+
+  get "/places" do
+    PlacesController.index
+  end
+
+  get "/places/:id" do |id|
+    PlacesController.show(id)
+  end
+
+  post "/places" do
+    PlacesController.create(parse_body)
+  end
+
+  patch "/places/:id" do |id|
+    PlacesController.update(id, parse_body)
+  end
+
+  delete "/places/:id" do |id|
+    PlacesController.destroy(id)
+  end
+
+  get "/places/:id/devices" do |id|
+    DeviceController.index_for_place(id)
   end
 end

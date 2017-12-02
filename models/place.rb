@@ -1,6 +1,9 @@
-require_relative "base_model"
+require "sinatra/activerecord"
+require_relative "jsonize"
 
-class Place < BaseModel
+class Place < ActiveRecord::Base
+  include Jsonize
+
   has_many :devices, dependent: :destroy
   has_many :sensors, through: :devices
 
@@ -12,6 +15,12 @@ class Place < BaseModel
     {
       name: name,
       description: description
+    }
+  end
+
+  def hash_assoc
+    {
+      devices: devices.map {|device| device.to_hash}
     }
   end
 end

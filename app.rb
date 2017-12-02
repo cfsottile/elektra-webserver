@@ -1,24 +1,11 @@
 require_relative "controllers/sensor_controller"
 
-require 'sinatra/base'
+# require 'sinatra'
+# require 'sinatra/base'
+# require "sinatra/activerecord"
 
 class App < Sinatra::Base
-
-  set :bind, '0.0.0.0'
-  configure do
-    enable :cross_origin
-  end
-  before do
-    response.headers['Access-Control-Allow-Origin'] = '*'
-  end
-
-  # routes...
-  options "*" do
-    response.headers["Allow"] = "GET, POST, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    200
-  end
+  # register Sinatra::ActiveRecordExtension
 
   get "/prueba" do
     send_file "pruebas/index.html"

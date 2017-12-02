@@ -2,7 +2,7 @@ require_relative "../models/sensor"
 
 class SensorController
   def self.index
-    Sensor.all.map {|s| s.hash(:assoc, :last)}.to_json
+    Sensor.all.map {|s| s.to_hash(:assoc, :last)}.to_json
   end
 
   def self.show(name)

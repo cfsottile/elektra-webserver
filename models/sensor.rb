@@ -1,8 +1,11 @@
-require_relative "base_model"
+require "sinatra/activerecord"
 require_relative "device"
 require_relative "measure"
+require_relative "jsonize"
 
-class Sensor < BaseModel
+class Sensor < ActiveRecord::Base
+  include Jsonize
+
   belongs_to :device
 
   validates :name, presence: true, uniqueness: true, length: { in: 1..30 }

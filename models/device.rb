@@ -1,7 +1,10 @@
-require_relative "base_model"
+require "sinatra/activerecord"
 require_relative "place"
+require_relative "jsonize"
 
-class Device < BaseModel
+class Device < ActiveRecord::Base
+  include Jsonize
+
   belongs_to :place
   has_many :sensors, dependent: :destroy
 

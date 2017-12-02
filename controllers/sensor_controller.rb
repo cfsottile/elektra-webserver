@@ -2,27 +2,28 @@ require_relative "../models/sensor"
 
 class SensorController
   def self.index
-    Sensor.json_index
-  end
-  
-  def self.show(id)
-    Sensor.json_show(id)
+    Sensor.all.map {|s| s.hash(:assoc, :last)}.to_json
   end
 
-  def self.last_measure(id)
-    Sensor.json_last_measure(id)
+  def self.show(name)
+    Sensor.find_by(name: name).json(:assoc)
   end
 
-  def self.consumption_from_to(from, to, precision, sensor_id)
-    Sensor.consumption_from_to(from, to, precision, sensor_id)
+  def self.last_measure(name)
+    Sensor.find_by(name: name).last_measure.to_json
+  end
+
+  def self.consumption_from_to(from, to, precision, sensor_name)
+    Sensor.find_by(name: sensor_name)
+      .consumption_from_to(from, to, precision)
+      .to_json
   end
 
   def self.turn_on(id)
-    JSON.generate({result: "WIP"})
+    "WIP".to_json
   end
 
   def self.turn_off(id)
-    JSON.generate({result: "WIP"})
+    "WIP".to_json
   end
-
 end

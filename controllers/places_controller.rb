@@ -8,15 +8,14 @@ class PlacesController
   end
 
   def self.create(data)
-    binding.pry
     place = Place.new(filter_permited_fields(data))
-    if place.save then [201, place.to_json] else 400 end
+    if place.save then [201, place.to_json] else [400, place.errors.messages.to_json] end
   end
 
   def self.update(id, data)
     find_or_return(id) do |place|
       place.update(filter_permited_fields(data))
-      if place.save then [200, place.to_json] else 400 end
+      if place.save then [200, place.to_json] else [400, place.errors.messages.to_json] end
     end
   end
 

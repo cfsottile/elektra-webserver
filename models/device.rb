@@ -23,7 +23,8 @@ class Device < ActiveRecord::Base
   def hash_assoc
     {
       place_name: place.name,
-      place_description: place.description
+      place_description: place.description,
+      sensors: sensors.map {|sensor| sensor.to_hash}
     }
   end
 end

@@ -1,5 +1,6 @@
-require_relative "controllers/sensor_controller"
 require_relative "controllers/places_controller"
+require_relative "controllers/devices_controller"
+require_relative "controllers/sensor_controller"
 
 # require 'sinatra'
 # require 'sinatra/base'
@@ -74,7 +75,23 @@ class App < Sinatra::Base
     PlacesController.destroy(id)
   end
 
-  get "/places/:id/devices" do |id|
-    DeviceController.index_for_place(id)
+  get "/devices" do
+    DevicesController.index
+  end
+
+  get "/devices/:id" do |id|
+    DevicesController.show(id)
+  end
+
+  post "/devices" do
+    DevicesController.create(parse_body)
+  end
+
+  patch "/devices/:id" do |id|
+    DevicesController.update(id, parse_body)
+  end
+
+  delete "/devices/:id" do |id|
+    DevicesController.destroy(id)
   end
 end

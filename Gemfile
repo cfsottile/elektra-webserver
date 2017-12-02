@@ -9,6 +9,10 @@ gem "rack-cors"
 gem 'mongo', '~> 2.1'
 gem "rspec"
 gem "dry-monads"
+gem "sinatra-activerecord"
+gem "sqlite3"
+gem "rake"
+gem 'sinatra-cross_origin'
 
 group :development do
   gem "pry"

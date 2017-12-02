@@ -1,0 +1,16 @@
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: db/measures_db_dev.sqlite3
+
+test:
+  <<: *default
+  database: db/measures_db_test.sqlite3
+
+production:
+  <<: *default
+  database: db/measures_db.sqlite3

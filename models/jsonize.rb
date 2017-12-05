@@ -8,4 +8,8 @@ module Jsonize
   def json(*details)
     to_hash(*details).to_json
   end
+
+  def filtered_attributes
+    attributes.to_json
+  end
 end

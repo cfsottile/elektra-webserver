@@ -7,6 +7,16 @@ class UsersController < BaseController
     @permited_fields = %w(username password role)
   end
 
+  def login(data)
+    find_by_or_return(username: data["username"]) {|user| user.login(data["password"])}
+  end
+
+  def auth(token)
+    find_by_or_return(token: token) do |user|
+      if user.token_issued_at >= Time.now then user else 401 end
+    end
+  end
+
   def create(data)
     super(encrypt_password_field(data))
   end

@@ -13,6 +13,7 @@ gem "sinatra-activerecord"
 gem "sqlite3"
 gem "rake"
 gem 'sinatra-cross_origin'
+gem "bcrypt"
 
 group :development do
   gem "pry"

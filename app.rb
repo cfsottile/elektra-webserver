@@ -1,3 +1,4 @@
+require_relative "controllers/users_controller"
 require_relative "controllers/places_controller"
 require_relative "controllers/devices_controller"
 require_relative "controllers/sensors_controller"

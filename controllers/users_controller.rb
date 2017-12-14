@@ -13,7 +13,7 @@ class UsersController < BaseController
 
   def auth(token)
     find_by_or_return(token: token) do |user|
-      if user.token_issued_at >= Time.now then user else 401 end
+      if user.token_valid_through >= Time.now then user else 401 end
     end
   end
 

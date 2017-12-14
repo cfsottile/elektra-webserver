@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   def login(password)
     if Password.new(self.password) == password
       t = { token: SecureRandom.urlsafe_base64(64) }
-      update(t.merge(token_issued_at: @@expire_times[role]))
+      update(t.merge(token_valid_through: @@expire_times[role]))
       t.to_json
     else
       404

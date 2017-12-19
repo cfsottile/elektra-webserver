@@ -28,10 +28,8 @@ class Sensor < ActiveRecord::Base
 
   def hash_assoc
     {
-      device_name: device.name,
-      device_description: device.description,
-      place_name: device.place.name,
-      place_description: device.place.description,
+      device: device.to_hash,
+      place: device.place.to_hash
     }
   end
 end

@@ -5,11 +5,11 @@ class BaseController
   end
 
   def index
-    @model.all.map {|model| model.to_hash(:assoc)}.to_json
+    @model.all.map {|model| model.to_hash(*@index_aggregation)}.to_json
   end
 
   def show(id)
-    find_or_return(id) {|model| model.json(:assoc)}
+    find_or_return(id) {|model| model.json(*@show_aggregation)}
   end
 
   def create(data)
@@ -47,7 +47,7 @@ class BaseController
 
   def attempt_saving(model, response_code)
     if model.save
-      [response_code, model.filtered_attributes]
+      [response_code, model.json]
     else
       [400, model.errors.messages.to_json]
     end

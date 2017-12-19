@@ -5,6 +5,8 @@ class UsersController < BaseController
   def initialize
     @model = User
     @permited_fields = %w(username password role)
+    @index_aggregation = []
+    @show_aggregation = []
   end
 
   def login(data)

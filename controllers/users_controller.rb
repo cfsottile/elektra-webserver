@@ -18,20 +18,4 @@ class UsersController < BaseController
       if user.token_valid_through >= Time.now then user else 401 end
     end
   end
-
-  def create(data)
-    super(encrypt_password_field(data))
-  end
-
-  def update(data)
-    super(encrypt_password_field(data))
-  end
-
-  def encrypt_password_field(hash)
-    if hash.include?("password")
-      hash.merge("password" => BCrypt::Password.create(hash["password"]))
-    else
-      hash
-    end
-  end
 end

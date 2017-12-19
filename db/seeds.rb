@@ -3,13 +3,9 @@ require_relative "../models/place"
 require_relative "../models/device"
 require_relative "../models/sensor"
 
-def encrypt(password)
-  BCrypt::Password.create(password)
-end
-
 users = [
-  { username: "admin", password: encrypt("admin"), role: "admin" },
-  { username: "user", password: encrypt("user"), role: "user" }
+  { username: "admin", password: "admin", role: "admin" },
+  { username: "user", password: "user", role: "user" }
 ]
 
 users.each { |u| User.create(u) }

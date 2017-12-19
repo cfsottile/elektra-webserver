@@ -8,11 +8,20 @@ class User < ActiveRecord::Base
   include BCrypt
 
   validates :username, presence: true, uniqueness: true, length: { in: 1..50 }
-  validates :password, presence: true
+  validates :password_hash, presence: true
   validates :role, presence: true, length: { in: 1..30 }
 
+  def password
+    @password ||= Password.new(password_hash)
+  end
+
+  def password=(new_password)
+    @password = Password.create(new_password)
+    self.password_hash = @password
+  end
+
   def login(password)
-    if Password.new(self.password) == password
+    if self.password == password
       t = { token: SecureRandom.urlsafe_base64(64) }
       update(t.merge(token_valid_through: @@expire_times[role]))
       t.to_json
@@ -25,9 +34,6 @@ class User < ActiveRecord::Base
   def hash_data
     { id: id, username: username, role: role }
   end
-
-  # shouldn't be needed; check BaseController#index
-  def hash_assoc; {}; end
 
   @@expire_times = {
     "user" => (DateTime.now + 0.5).to_time,

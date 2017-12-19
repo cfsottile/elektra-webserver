@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20171203210236) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "password"
+    t.string "password_hash"
     t.string "role"
     t.string "token"
     t.datetime "token_valid_through"

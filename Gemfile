@@ -15,6 +15,7 @@ gem "sqlite3"
 gem "rake"
 gem 'sinatra-cross_origin'
 gem "bcrypt"
+gem "kaminari-activerecord"
 
 group :development do
   gem "pry"

@@ -35,7 +35,15 @@ class App < Sinatra::Base
   end
 
   get "/sensors", auth: %i(admin user) do
-    SensorsController.instance.index
+    SensorsController.instance.index(1)
+  end
+
+  get "/sensors/page/:page", auth: %i(admin user) do |page|
+    SensorsController.instance.index(page)
+  end
+
+  get "/sensors/page/:page/per/:per", auth: %i(admin user) do |page,per|
+    SensorsController.instance.index(page, per)
   end
 
   get "/sensors/:id", auth: %i(admin user) do |id|
@@ -79,7 +87,15 @@ class App < Sinatra::Base
   end
 
   get "/places", auth: %i(admin user) do
-    PlacesController.instance.index
+    PlacesController.instance.index(1)
+  end
+
+  get "/places/page/:page", auth: %i(admin user) do |page|
+    PlacesController.instance.index(page)
+  end
+
+  get "/places/page/:page/per/:per", auth: %i(admin user) do |page,per|
+    PlacesController.instance.index(page, per)
   end
 
   get "/places/:id", auth: %i(admin user) do |id|
@@ -99,7 +115,15 @@ class App < Sinatra::Base
   end
 
   get "/devices", auth: %i(admin user) do
-    DevicesController.instance.index
+    DevicesController.instance.index(1)
+  end
+
+  get "/devices/page/:page", auth: %i(admin user) do |page|
+    DevicesController.instance.index(page)
+  end
+
+  get "/devices/page/:page/per/:per", auth: %i(admin user) do |page,per|
+    DevicesController.instance.index(page, per)
   end
 
   get "/devices/:id", auth: %i(admin user) do |id|
@@ -119,7 +143,15 @@ class App < Sinatra::Base
   end
 
   get "/users", auth: %i(admin) do
-    UsersController.instance.index
+    UsersController.instance.index(1)
+  end
+
+  get "/users/page/:page", auth: %i(admin) do |page|
+    UsersController.instance.index(page)
+  end
+
+  get "/users/page/:page/per/:per", auth: %i(admin) do |page,per|
+    UsersController.instance.index(page, per)
   end
 
   get "/users/:id", auth: %i(admin) do |id|

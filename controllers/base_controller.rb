@@ -4,8 +4,8 @@ class BaseController
     @instance
   end
 
-  def index
-    @model.all.map {|model| model.to_hash(*@index_aggregation)}.to_json
+  def index(page, per = 10)
+    @model.page(page).per(per).map {|model| model.to_hash(*@index_aggregation)}.to_json
   end
 
   def show(id)

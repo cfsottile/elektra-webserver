@@ -13,18 +13,33 @@ class Measure
   end
 
   def self.last_for(sensor_name)
-    $db["last_measures"].find({sensor_name: sensor_name}).projection({_id: 0}).to_a.first
+    $db["last_measures"]
+      .find({sensor_name: sensor_name})
+      .projection({_id: 0})
+      .to_a
+      .first
   end
 
-  def self.consumption_from_to(sensor_name, raw_from, raw_to, precision)
-    averaged_measures(sensor_name, DateTime.rfc3339(raw_from), DateTime.rfc3339(raw_to), precision)
-      .to_a
-      .map {|m| format_averaged_measure(m)}
+  def self.average_consumptions(sensor_name, raw_from, raw_to, precision)
+    averaged_measures(
+      sensor_name,
+      instance_date(raw_from),
+      instance_date(raw_to),
+      precision
+    ).to_a
   end
 
   private
   def self.validate(measure)
-    Sensor.exists(name: measure["sensor_name"])
+    [
+      ![
+        measure,
+        measure["sensor_name"],
+        measure["time"],
+        measure["value"]
+      ].lazy.map(&:nil?).any?,
+      Sensor.exists(name: measure["sensor_name"])
+    ].all?
   end
 
   def self.update_last_measure(measure)
@@ -32,6 +47,10 @@ class Measure
       {"sensor_name" => measure["sensor_name"]},
       {"$set" => measure},
       upsert: true)
+  end
+
+  def instance_date(str_date)
+    DateTime.parse(str_date) + Rational(3,24)
   end
 
   PRECISION_GROUP = {
@@ -63,27 +82,25 @@ class Measure
 
   OFFSET = 3 * 60 * 60 * 1000
 
-  def averaged_measures(id, from, to, precision)
+  def self.averaged_measures(id, from, to, precision)
     $db["measures"]
       .find({sensor_name: id})
       .aggregate([
         { "$match" => { "time" => { "$gt" => from, "$lt" => to}}},
-        { "$group" => {
-          "_id" => precision_query(precision),
-          "avg" => { "$avg" => "$value" },
-          "time" => { "$first" => "$time" } }},
-        { "$sort" => { "time" => 1 }},
         { "$project" => {
           "time" => { "$subtract" => ["$time", OFFSET]},
-          "avg" => 1}},
+          "value" => "$value"}},
+        { "$group" => {
+          "_id" => precision_query(precision),
+          "value" => { "$avg" => "$value" },
+          "time" => { "$first" => "$time" }
+          }},
+        { "$sort" => { "time" => 1 }},
         { "$project" => {
+          "_id" => 0,
           "date" => {
             "$dateToString" => { "format" => format_date(precision), "date" => "$time" }},
-            "avg" => 1}}
+          "value" => 1}}
         ])
-  end
-
-  def self.format_averaged_measure(measure)
-    { value: measure["avg"], date: measure["date"] }
   end
 end

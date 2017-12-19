@@ -8,6 +8,7 @@ gem "thin"
 gem "rack-cors"
 gem 'mongo', '~> 2.1'
 gem "rspec"
+gem "rack-test"
 gem "dry-monads"
 gem "sinatra-activerecord"
 gem "sqlite3"

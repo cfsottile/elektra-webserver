@@ -45,6 +45,8 @@ GEM
     rack-cors (0.4.1)
     rack-protection (2.0.0)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rake (12.3.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
@@ -94,6 +96,7 @@ DEPENDENCIES
   pry
   rack
   rack-cors
+  rack-test
   rake
   rspec
   sinatra

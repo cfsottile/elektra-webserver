@@ -13,28 +13,15 @@ class Sensor < ActiveRecord::Base
   validates :status, inclusion: { within: [0,1] }
   validates :device, presence: true
 
-  def consumption_from_to(raw_from, raw_to, precision)
-    Measure.consumption_from_to(
-      self.name,
-      DateTime.rfc3339(raw_from),
-      DateTime.rfc3339(raw_to),
-      precision)
+  def average_consumptions(from, to, precision)
+    Measure.average_consumptions(name, from, to, precision)
   end
 
   def last_measure
-    Measure.last_for(self.name)
+    Measure.last_for(name)
   end
 
   private
-  def hash_data
-    {
-      id: id,
-      name: name,
-      description: description,
-      status: status
-    }
-  end
-
   def hash_last
     { last_measure: last_measure }
   end

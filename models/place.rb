@@ -1,5 +1,6 @@
 require "sinatra/activerecord"
 require_relative "jsonize"
+require_relative "device"
 
 class Place < ActiveRecord::Base
   include Jsonize
@@ -11,17 +12,7 @@ class Place < ActiveRecord::Base
   validates :description, presence: true, length: { in: 1..50 }
 
   private
-  def hash_data
-    {
-      id: id,
-      name: name,
-      description: description
-    }
-  end
-
   def hash_assoc
-    {
-      devices: devices.map {|device| device.to_hash}
-    }
+    { devices: devices.map {|device| device.to_hash} }
   end
 end

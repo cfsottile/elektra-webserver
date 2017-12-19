@@ -21,10 +21,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def filtered_attributes
-    json
-  end
-
   private
   def hash_data
     { id: id, username: username, role: role }

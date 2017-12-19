@@ -9,7 +9,7 @@ module Jsonize
     to_hash(*details).to_json
   end
 
-  def filtered_attributes
-    attributes.to_json
+  def hash_data
+    attributes.delete_if {|k,_| k.last(3) == "_id"}
   end
 end

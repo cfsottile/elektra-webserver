@@ -24,9 +24,9 @@ class App < Sinatra::Base
 
   helpers do
     def parse_body
-      parsed = JSON.parse(request.body.read)
+      body = request.body.read
       request.body.rewind
-      parsed
+      if body != "" then JSON.parse(body) else {} end
     end
   end
 
@@ -34,11 +34,11 @@ class App < Sinatra::Base
     UsersController.instance.login(parse_body)
   end
 
-  get "/sensors", auth: %i(admin, user) do
+  get "/sensors", auth: %i(admin user) do
     SensorsController.instance.index
   end
 
-  get "/sensors/:id", auth: %i(admin, user) do |id|
+  get "/sensors/:id", auth: %i(admin user) do |id|
     SensorsController.instance.show(id)
   end
 
@@ -54,19 +54,19 @@ class App < Sinatra::Base
     SensorsController.instance.destroy(id)
   end
 
-  get "/sensors/:id/last", auth: %i(admin, user) do |id|
+  get "/sensors/:id/last", auth: %i(admin user) do |id|
     SensorsController.instance.last_measure(id)
   end
 
-  get "/sensors/:id/lapse/from/:from/to/:to/precision/:precision", auth: %i(admin, user) do |id, from, to, precision|
-    SensorsController.instance.consumption_from_to(id, from, to, precision)
+  get "/sensors/:id/average/from/:from/to/:to/precision/:precision", auth: %i(admin user) do |id, from, to, precision|
+    SensorsController.instance.average_consumptions(id, from, to, precision)
   end
 
-  get "/sensors/:id/turn_on", auth: %i(admin, user) do |id|
+  get "/sensors/:id/turn_on", auth: %i(admin user) do |id|
     SensorsController.instance.turn_on(id)
   end
 
-  get "/sensors/:id/turn_off", auth: %i(admin, user) do |id|
+  get "/sensors/:id/turn_off", auth: %i(admin user) do |id|
     SensorsController.instance.turn_off(id)
   end
 
@@ -78,11 +78,11 @@ class App < Sinatra::Base
     MeasureController.store_many(env)
   end
 
-  get "/places", auth: %i(admin, user) do
+  get "/places", auth: %i(admin user) do
     PlacesController.instance.index
   end
 
-  get "/places/:id", auth: %i(admin, user) do |id|
+  get "/places/:id", auth: %i(admin user) do |id|
     PlacesController.instance.show(id)
   end
 
@@ -98,11 +98,11 @@ class App < Sinatra::Base
     PlacesController.instance.destroy(id)
   end
 
-  get "/devices", auth: %i(admin, user) do
+  get "/devices", auth: %i(admin user) do
     DevicesController.instance.index
   end
 
-  get "/devices/:id", auth: %i(admin, user) do |id|
+  get "/devices/:id", auth: %i(admin user) do |id|
     DevicesController.instance.show(id)
   end
 

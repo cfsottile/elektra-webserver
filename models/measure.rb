@@ -49,8 +49,8 @@ class Measure
       upsert: true)
   end
 
-  def instance_date(str_date)
-    DateTime.parse(str_date) + Rational(3,24)
+  def self.instance_date(details)
+    DateTime.new(*details.map(&:to_i)) + Rational(3,24)
   end
 
   PRECISION_GROUP = {

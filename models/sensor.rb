@@ -23,13 +23,13 @@ class Sensor < ActiveRecord::Base
 
   private
   def hash_last
-    { last_measure: last_measure }
+    { "last_measure" => last_measure }
   end
 
   def hash_assoc
     {
-      device: device.to_hash,
-      place: device.place.to_hash
+      "device" => device.to_hash,
+      "place" => device.place.to_hash
     }
   end
 end

@@ -13,6 +13,6 @@ class Place < ActiveRecord::Base
 
   private
   def hash_assoc
-    { devices: devices.map {|device| device.to_hash} }
+    { "devices" => devices.map {|device| device.to_hash} }
   end
 end

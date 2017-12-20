@@ -10,7 +10,7 @@ class SensorsController < BaseController
     find_or_return(id) {|sensor| sensor.last_measure.to_json}
   end
 
-  def average_consumptions(from, to, precision, id)
+  def average_consumptions(id, from, to, precision)
     find_or_return(id) {|sensor| sensor.average_consumptions(from, to, precision).to_json}
   end
 

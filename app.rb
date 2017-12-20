@@ -66,8 +66,20 @@ class App < Sinatra::Base
     SensorsController.instance.last_measure(id)
   end
 
-  get "/sensors/:id/average/from/:from/to/:to/precision/:precision", auth: %i(admin user) do |id, from, to, precision|
-    SensorsController.instance.average_consumptions(id, from, to, precision)
+  get "/sensors/:id/average/from/:y1/to/:y2/per/:precision", auth: %i(admin user) do |id, y1, y2, precision|
+    SensorsController.instance.average_consumptions(id, [y1], [y2], precision)
+  end
+
+  get "/sensors/:id/average/from/:y1/:m1/to/:y2/:m2/per/:precision", auth: %i(admin user) do |id, y1, m1, y2, m2, precision|
+    SensorsController.instance.average_consumptions(id, [y1,m1], [y2,m2], precision)
+  end
+
+  get "/sensors/:id/average/from/:y1/:m1/:d1/to/:y2/:m2/:d2/per/:precision", auth: %i(admin user) do |id, y1, m1, d1, y2, m2, d2, precision|
+    SensorsController.instance.average_consumptions(id, [y1,m1,d1], [y2,m2,d2], precision)
+  end
+
+  get "/sensors/:id/average/from/:y1/:m1/:d1/:h1/to/:y2/:m2/:d2/:h2", auth: %i(admin user) do |id, y1, m1, d1, h1, y2, m2, d2, h2|
+    SensorsController.instance.average_consumptions(id, [y1,m1,d1,h1], [y2,m2,d2,h2], "hour")
   end
 
   get "/sensors/:id/turn_on", auth: %i(admin user) do |id|

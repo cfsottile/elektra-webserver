@@ -6,8 +6,8 @@ require_relative "../models/sensor"
 module Helpers
   def users_seed
     users = [
-      { username: "admin", password: encrypt("admin"), role: "admin" },
-      { username: "user", password: encrypt("user"), role: "user" }
+      { username: "admin", password: "admin", role: "admin" },
+      { username: "user", password: "user", role: "user" }
     ]
     users.each { |u| User.create(u) }
   end
@@ -51,13 +51,15 @@ module Helpers
   def measures_seed
     values = [3.5,3.6,3.7,3.8,3.9,4.0,4.1]
     sensors = ["a5d1s1"]
-    dates = (DateTime.now << 6).step(DateTime.now, Rational(1,24*12))
+    first_datetime = DateTime.now << 6
+    last_datetime = DateTime.now
+    dates = first_datetime.step(last_datetime, Rational(1,24*12))
     measures = sensors.map {|s| dates.map {|d| { sensor_name: s, time: d, value: values.sample } }}
     flattened_measures = measures.flatten
     last_measures = measures.map {|ms| ms.last}
     $db["measures"].insert_many(flattened_measures)
     $db["last_measures"].insert_many(last_measures)
-    last_measures
+    [last_measures, first_datetime, last_datetime]
   end
 
   def drop_places
@@ -77,8 +79,14 @@ module Helpers
     $db["last_measures"].drop
   end
 
-  private
-  def encrypt(password)
-    BCrypt::Password.create(password)
+  def date_to_arr(date, precision)
+    arr = %i(year month day hour)
+    n = case precision
+        when "hour" then 4
+        when "day" then 3
+        when "month" then 2
+        when "year" then 1
+        end
+    arr.map { |m| date.send(m) }.take(n)
   end
 end

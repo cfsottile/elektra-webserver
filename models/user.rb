@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: true, length: { in: 1..50 }
   validates :password_hash, presence: true
-  validates :role, presence: true, length: { in: 1..30 }
+  validates :role, presence: true, inclusion: { in: %w(user admin device) }
 
   def password
     @password ||= Password.new(password_hash)

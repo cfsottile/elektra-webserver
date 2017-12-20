@@ -74,7 +74,11 @@ module Helpers
     Sensor.delete_all
   end
 
-  def measures_drop
+  def drop_users
+    User.delete_all
+  end
+
+  def drop_measures
     $db["measures"].drop
     $db["last_measures"].drop
   end

@@ -1,10 +1,18 @@
 class MeasuresController
   def self.store(measure)
-    if Measure.store(parse_time(measure)) then 201 else 400 end
+    if (errors = Measure.store(parse_time(measure))).empty?
+      201
+    else
+      [400, errors]
+    end
   end
 
   def self.store_many(measures)
-    if Measure.store_many(measures.map { |m| parse_time(m) }) then 201 else 400 end
+    if (errors = Measure.store_many(measures.map { |m| parse_time(m) })).empty?
+      201
+    else
+      [400, errors]
+    end
   end
 
   private

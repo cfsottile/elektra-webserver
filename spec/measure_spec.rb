@@ -22,15 +22,13 @@ describe Measure do
 
   describe "#store" do
     it "stores a well formed request" do
-      expect(
-        Measure.store({ "sensor_code" => "a5d1s1", "time" => DateTime.now, "value" => 3.9 })
-      ).to be_truthy
+      errors = Measure.store({ "sensor_code" => "a5d1s1", "time" => DateTime.now, "value" => 3.9 })
+      expect(errors).to eql([])
     end
 
     it "refuses a bad request" do
-      expect(
-        Measure.store({ "sensor_code" => "aaaaaa", "time" => DateTime.now, "value" => 3.9 })
-      ).to be_falsey
+      errors = Measure.store({ "sensor_code" => "aaaaaa", "time" => DateTime.now, "value" => 3.9 })
+      expect(errors.size).to eql(1)
     end
   end
 
@@ -41,9 +39,8 @@ describe Measure do
       last_datetime = DateTime.now
       dates = first_datetime.step(last_datetime, Rational(1,24*60*120))
       measures = dates.map { |d| { "sensor_code" => "a5d1s1", "time" => d, "value" => values.sample } }
-      expect(
-        Measure.store_many(measures)
-      ).to be_truthy
+      errors = Measure.store_many(measures)
+      expect(errors).to eql([])
     end
 
     it "refuses a bad request" do
@@ -52,9 +49,14 @@ describe Measure do
       last_datetime = DateTime.now
       dates = first_datetime.step(last_datetime, Rational(1,24*60*120))
       measures = dates.map { |d| { "sensor_code" => "aaaaaa", "time" => d, "value" => values.sample } }
-      expect(
-        Measure.store_many(measures)
-      ).to be_falsey
+      errors = Measure.store_many(measures)
+      expect(errors.size).to eql(measures.size)
+      errors.each do |e|
+        expect(e[0]["sensor_code"]).not_to be_nil
+        expect(e[0]["time"]).not_to be_nil
+        expect(e[0]["value"]).not_to be_nil
+        expect(e[1].size).to eql(1)
+      end
     end
   end
 end

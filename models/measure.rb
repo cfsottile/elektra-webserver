@@ -2,11 +2,16 @@ require_relative "sensor"
 
 class Measure
   def self.store(measure)
-    validate(measure) && save(measure)
+    if (errors = validate(measure)).empty? then save(measure) end
+    errors
   end
 
   def self.store_many(measures)
-    measures.map { |m| validate(m) }.all? && measures.each { |m| save(m) }
+    with_errors = measures.map { |m| [m, validate(m)] }
+    if with_errors.map { |we| we[1].empty? }.all?
+      measures.each { |m| save(m) }
+    end
+    with_errors.select { |we| !we[1].empty? }
   end
 
   def self.last_for(sensor_code)
@@ -34,14 +39,12 @@ class Measure
 
   def self.validate(measure)
     [
-      ![
-        measure,
-        measure["sensor_code"],
-        measure["time"],
-        measure["value"]
-      ].lazy.map(&:nil?).any?,
-      Sensor.exists?(code: measure["sensor_code"])
-    ].all?
+      [measure, :nil?, "the measure object can not be nil"],
+      [measure["sensor_code"], :nil?, "the sensor's code can not be nil"],
+      [measure["time"], :nil?, "the sensor's time can not be nil"],
+      [measure["value"], :nil?, "the sensor's value can not be nil"],
+      [Sensor.exists?(code: measure["sensor_code"]), :!, "the code does not correspond to an existing sensor"]
+    ].select { |e| e[0].send(e[1]) }.map(&:last)
   end
 
   def self.update_last_measure(measure)

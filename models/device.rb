@@ -10,7 +10,7 @@ class Device < ActiveRecord::Base
   has_many :sensors, dependent: :destroy
 
   validates :code, presence: true, uniqueness: true, length: { in: 1..30 }
-  validates :description, presence: true, length: { in: 1..50 }
+  validates :name, presence: true, length: { in: 1..50 }
   validates :place, presence: true
 
   private

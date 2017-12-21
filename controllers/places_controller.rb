@@ -4,7 +4,7 @@ require_relative "../models/place"
 class PlacesController < BaseController
   def initialize
     @model = Place
-    @permited_fields = %w(code description)
+    @permited_fields = %w(code name)
     @index_aggregation = %i(assoc)
     @show_aggregation = %i(assoc)
   end

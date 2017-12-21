@@ -14,20 +14,20 @@ ActiveRecord::Schema.define(version: 20171203210236) do
 
   create_table "devices", force: :cascade do |t|
     t.string "code"
-    t.string "description"
+    t.string "name"
     t.integer "place_id"
     t.index ["code"], name: "index_devices_on_code"
   end
 
   create_table "places", force: :cascade do |t|
     t.string "code"
-    t.string "description"
+    t.string "name"
     t.index ["code"], name: "index_places_on_code"
   end
 
   create_table "sensors", force: :cascade do |t|
     t.string "code"
-    t.string "description"
+    t.string "name"
     t.integer "status", default: 1
     t.integer "device_id"
     t.index ["code"], name: "index_sensors_on_code"

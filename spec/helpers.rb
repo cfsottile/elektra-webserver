@@ -14,36 +14,36 @@ module Helpers
 
   def places_seed
     places = [
-      { code: "a1", description: "Aula 1" },
-      { code: "a5", description: "Aula 5" },
+      { code: "a1", name: "Aula 1" },
+      { code: "a5", name: "Aula 5" },
     ]
     places.each { |p| Place.create(p) }
   end
 
   def devices_seed
     devices = [
-      { code: "a1d1", description: "Dispositivo 1", place: Place.find_by(code: "a1") },
-      { code: "a1d2", description: "Dispositivo 2", place: Place.find_by(code: "a1") },
-      { code: "a5d1", description: "Dispositivo 1", place: Place.find_by(code: "a5") },
-      { code: "a5d2", description: "Dispositivo 2", place: Place.find_by(code: "a5") }
+      { code: "a1d1", name: "Dispositivo 1", place: Place.find_by(code: "a1") },
+      { code: "a1d2", name: "Dispositivo 2", place: Place.find_by(code: "a1") },
+      { code: "a5d1", name: "Dispositivo 1", place: Place.find_by(code: "a5") },
+      { code: "a5d2", name: "Dispositivo 2", place: Place.find_by(code: "a5") }
     ]
     devices.each { |d| Device.create(d) }
   end
 
   def sensors_seed
     sensors = [
-      { code: "a1d1s1", description: "Sensor 1", device: Device.find_by(code: "a1d1") },
-      { code: "a1d1s2", description: "Sensor 2", device: Device.find_by(code: "a1d1") },
-      { code: "a1d1s3", description: "Sensor 3", device: Device.find_by(code: "a1d1") },
-      { code: "a1d2s1", description: "Sensor 1", device: Device.find_by(code: "a1d2") },
-      { code: "a1d2s2", description: "Sensor 2", device: Device.find_by(code: "a1d2") },
-      { code: "a1d2s3", description: "Sensor 3", device: Device.find_by(code: "a1d2") },
-      { code: "a5d1s1", description: "Sensor 1", device: Device.find_by(code: "a5d1") },
-      { code: "a5d1s2", description: "Sensor 2", device: Device.find_by(code: "a5d1") },
-      { code: "a5d1s3", description: "Sensor 3", device: Device.find_by(code: "a5d1") },
-      { code: "a5d2s1", description: "Sensor 2", device: Device.find_by(code: "a5d2") },
-      { code: "a5d2s2", description: "Sensor 2", device: Device.find_by(code: "a5d2") },
-      { code: "a5d2s3", description: "Sensor 3", device: Device.find_by(code: "a5d2") }
+      { code: "a1d1s1", name: "Sensor 1", device: Device.find_by(code: "a1d1") },
+      { code: "a1d1s2", name: "Sensor 2", device: Device.find_by(code: "a1d1") },
+      { code: "a1d1s3", name: "Sensor 3", device: Device.find_by(code: "a1d1") },
+      { code: "a1d2s1", name: "Sensor 1", device: Device.find_by(code: "a1d2") },
+      { code: "a1d2s2", name: "Sensor 2", device: Device.find_by(code: "a1d2") },
+      { code: "a1d2s3", name: "Sensor 3", device: Device.find_by(code: "a1d2") },
+      { code: "a5d1s1", name: "Sensor 1", device: Device.find_by(code: "a5d1") },
+      { code: "a5d1s2", name: "Sensor 2", device: Device.find_by(code: "a5d1") },
+      { code: "a5d1s3", name: "Sensor 3", device: Device.find_by(code: "a5d1") },
+      { code: "a5d2s1", name: "Sensor 2", device: Device.find_by(code: "a5d2") },
+      { code: "a5d2s2", name: "Sensor 2", device: Device.find_by(code: "a5d2") },
+      { code: "a5d2s3", name: "Sensor 3", device: Device.find_by(code: "a5d2") }
     ]
     sensors.each { |s| Sensor.create(s) }
   end

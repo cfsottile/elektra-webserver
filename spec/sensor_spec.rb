@@ -132,7 +132,7 @@ describe Sensor do
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
       expect(hash["code"]).to eql("a5d1s1")
-      expect(hash["description"]).to eql("Sensor 1")
+      expect(hash["name"]).to eql("Sensor 1")
     end
 
     it "returns sensor's and related models' attributes" do
@@ -140,11 +140,11 @@ describe Sensor do
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
       expect(hash["code"]).to eql("a5d1s1")
-      expect(hash["description"]).to eql("Sensor 1")
+      expect(hash["name"]).to eql("Sensor 1")
       expect(hash["device"]).not_to be_nil
       expect(hash["device"]["id"]).not_to be_nil
       expect(hash["device"]["code"]).to eql("a5d1")
-      expect(hash["device"]["description"]).to eql("Dispositivo 1")
+      expect(hash["device"]["name"]).to eql("Dispositivo 1")
     end
 
     it "returns sensor's attributes and last measure" do
@@ -152,7 +152,7 @@ describe Sensor do
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
       expect(hash["code"]).to eql("a5d1s1")
-      expect(hash["description"]).to eql("Sensor 1")
+      expect(hash["name"]).to eql("Sensor 1")
       expect(hash["last_measure"]).not_to be_nil
       expect(hash["last_measure"]["time"]).not_to be_nil
       expect(hash["last_measure"]["value"]).to eql(@last_measures.first[:value])
@@ -163,11 +163,11 @@ describe Sensor do
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
       expect(hash["code"]).to eql("a5d1s1")
-      expect(hash["description"]).to eql("Sensor 1")
+      expect(hash["name"]).to eql("Sensor 1")
       expect(hash["device"]).not_to be_nil
       expect(hash["device"]["id"]).not_to be_nil
       expect(hash["device"]["code"]).to eql("a5d1")
-      expect(hash["device"]["description"]).to eql("Dispositivo 1")
+      expect(hash["device"]["name"]).to eql("Dispositivo 1")
       expect(hash["last_measure"]).not_to be_nil
       expect(hash["last_measure"]["time"]).not_to be_nil
       expect(hash["last_measure"]["value"]).to eql(@last_measures.first[:value])

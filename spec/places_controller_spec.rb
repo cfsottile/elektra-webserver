@@ -37,11 +37,11 @@ describe "Places controller" do
       expect(places.length).to eql(2)
       expect(places.first["id"]).not_to be_nil
       expect(places.first["code"]).to eql("a1")
-      expect(places.first["description"]).to eql("Aula 1")
+      expect(places.first["name"]).to eql("Aula 1")
       expect(places.first["devices"].length).to eql(2)
       expect(places.first["devices"].first["id"]).not_to be_nil
       expect(places.first["devices"].first["code"]).to eql("a1d1")
-      expect(places.first["devices"].first["description"]).to eql("Dispositivo 1")
+      expect(places.first["devices"].first["name"]).to eql("Dispositivo 1")
     end
   end
 
@@ -53,11 +53,11 @@ describe "Places controller" do
       place = JSON.parse(last_response.body)
       expect(place["id"]).not_to be_nil
       expect(place["code"]).to eql("a1")
-      expect(place["description"]).to eql("Aula 1")
+      expect(place["name"]).to eql("Aula 1")
       expect(place["devices"].length).to eql(2)
       expect(place["devices"].first["id"]).not_to be_nil
       expect(place["devices"].first["code"]).to eql("a1d1")
-      expect(place["devices"].first["description"]).to eql("Dispositivo 1")
+      expect(place["devices"].first["name"]).to eql("Dispositivo 1")
     end
 
     it "fails to retrieve an inexistent place" do
@@ -70,7 +70,7 @@ describe "Places controller" do
     it "successfully creates a place" do
       place_data = {
         "code" => "tp1",
-        "description" => "Test Place 1"
+        "name" => "Test Place 1"
       }
       post "/places", place_data.to_json, @token_header
       expect(last_response.status).to eql(201)
@@ -78,7 +78,7 @@ describe "Places controller" do
       place = JSON.parse(last_response.body)
       expect(place["id"]).not_to be_nil
       expect(place["code"]).to eql(place_data["code"])
-      expect(place["description"]).to eql(place_data["description"])
+      expect(place["name"]).to eql(place_data["name"])
     end
 
     it "fails to create a place with no given data" do
@@ -89,7 +89,7 @@ describe "Places controller" do
     it "fails to create a place with invalid fields" do
       place_data = {
         "_code" => "tp1",
-        "_description" => "Test Place 1"
+        "_name" => "Test Place 1"
       }
       post "/places", {}, @token_header
       expect(last_response.status).to eql(400)
@@ -98,7 +98,7 @@ describe "Places controller" do
     it "fails to create a place with invalid data" do
       place_data = {
         "code" => 1332,
-        "description" => 31223
+        "name" => 31223
       }
       post "/places", {}, @token_header
       expect(last_response.status).to eql(400)
@@ -109,7 +109,7 @@ describe "Places controller" do
     it "successfully updates place's data" do
       patch_data = {
         "code" => "A1",
-        "description" => "AULA 1"
+        "name" => "AULA 1"
       }
       patch "/places/" + @place_id, patch_data.to_json, @token_header
       expect(last_response.status).to eql(200)
@@ -117,7 +117,7 @@ describe "Places controller" do
       place = JSON.parse(last_response.body)
       expect(place["id"]).not_to be_nil
       expect(place["code"]).to eql(patch_data["code"])
-      expect(place["description"]).to eql(patch_data["description"])
+      expect(place["name"]).to eql(patch_data["name"])
     end
 
     it "fails to update an inexistent place" do

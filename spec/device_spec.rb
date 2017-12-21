@@ -24,7 +24,7 @@ describe Device do
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
       expect(hash["code"]).to eql("a5d1")
-      expect(hash["description"]).to eql("Dispositivo 1")
+      expect(hash["name"]).to eql("Dispositivo 1")
     end
 
     it "returns device's and related models' attributes" do
@@ -32,16 +32,16 @@ describe Device do
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
       expect(hash["code"]).to eql("a5d1")
-      expect(hash["description"]).to eql("Dispositivo 1")
+      expect(hash["name"]).to eql("Dispositivo 1")
       expect(hash["place"]).not_to be_nil
       expect(hash["place"]["id"]).not_to be_nil
       expect(hash["place"]["code"]).to eql("a5")
-      expect(hash["place"]["description"]).to eql("Aula 5")
+      expect(hash["place"]["name"]).to eql("Aula 5")
       expect(hash["sensors"]).not_to be_nil
       hash["sensors"].each_with_index do |sensor, i|
         expect(sensor["id"]).not_to be_nil
         expect(sensor["code"]).to eql("a5d1s" + (i + 1).to_s)
-        expect(sensor["description"]).to eql("Sensor " + (i + 1).to_s)
+        expect(sensor["name"]).to eql("Sensor " + (i + 1).to_s)
         expect(sensor["status"]).to eql(1)
       end
     end

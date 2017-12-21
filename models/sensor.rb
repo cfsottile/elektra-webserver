@@ -9,7 +9,7 @@ class Sensor < ActiveRecord::Base
   belongs_to :device
 
   validates :code, presence: true, uniqueness: true, length: { in: 1..30 }
-  validates :description, presence: true, length: { in: 1..50 }
+  validates :name, presence: true, length: { in: 1..50 }
   validates :status, inclusion: { within: [0,1] }
   validates :device, presence: true
 

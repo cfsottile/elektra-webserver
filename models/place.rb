@@ -9,7 +9,7 @@ class Place < ActiveRecord::Base
   has_many :sensors, through: :devices
 
   validates :code, presence: true, uniqueness: true, length: { in: 1..30 }
-  validates :description, presence: true, length: { in: 1..50 }
+  validates :name, presence: true, length: { in: 1..50 }
 
   private
   def hash_assoc

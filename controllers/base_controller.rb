@@ -5,11 +5,11 @@ class BaseController
   end
 
   def index(page, per = 10)
-    @model.page(page).per(per).map {|model| model.to_hash(*@index_aggregation)}.to_json
+    @model.page(page).per(per).map { |model| model.to_hash(*@index_aggregation) }.to_json
   end
 
   def show(id)
-    find_or_return(id) {|model| model.json(*@show_aggregation)}
+    find_or_return(id) { |model| model.json(*@show_aggregation) }
   end
 
   def create(data)
@@ -42,7 +42,7 @@ class BaseController
   end
 
   def filter_permited_fields(hash)
-    hash.select {|field,_| @permited_fields.include?(field)}
+    hash.select { |field,_| @permited_fields.include?(field) }
   end
 
   def attempt_saving(model, response_code)

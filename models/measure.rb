@@ -63,7 +63,7 @@ class Measure
   }
 
   def self.precision_query(precision)
-    PRECISION_GROUP.drop_while {|k,v| k != precision}.to_h
+    PRECISION_GROUP.drop_while { |k,v| k != precision }.to_h
   end
 
   PRECISION_FORMAT = {
@@ -75,7 +75,7 @@ class Measure
 
   def self.format_date(precision)
     PRECISION_FORMAT
-      .drop_while {|k,v| k != precision}
+      .drop_while { |k,v| k != precision }
       .to_h
       .values
       .reverse

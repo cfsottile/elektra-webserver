@@ -10,6 +10,6 @@ module Jsonize
   end
 
   def hash_data
-    attributes.delete_if {|k,_| k.last(3) == "_id"}
+    attributes.delete_if { |k,_| k.last(3) == "_id" }
   end
 end

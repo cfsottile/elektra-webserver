@@ -10,7 +10,7 @@ class UsersController < BaseController
   end
 
   def login(data)
-    find_by_or_return(username: data["username"]) {|user| user.login(data["password"])}
+    find_by_or_return(username: data["username"]) { |user| user.login(data["password"]) }
   end
 
   def auth(token)

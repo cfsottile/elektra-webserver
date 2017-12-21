@@ -84,11 +84,12 @@ class Measure
 
   OFFSET = 3 * 60 * 60 * 1000
 
-  def self.averaged_measures(id, from, to, precision)
+  def self.averaged_measures(code, from, to, precision)
     $db["measures"]
-      .find({sensor_code: id})
       .aggregate([
-        { "$match" => { "time" => { "$gt" => from, "$lt" => to}}},
+        { "$match" => {
+          "sensor_code" => code,
+          "time" => { "$gt" => from, "$lt" => to}}},
         { "$project" => {
           "time" => { "$subtract" => ["$time", OFFSET]},
           "value" => "$value"}},

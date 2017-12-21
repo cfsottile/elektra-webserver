@@ -21,7 +21,7 @@ describe "Places controller" do
     users_seed; places_seed; devices_seed
     post "/login", {"username" => "admin", "password" => "admin"}.to_json
     @token_header = {"HTTP_AUTHORIZATION" => JSON.parse(last_response.body)["token"]}
-    @place_id = Place.find_by(name: "a1").id.to_s
+    @place_id = Place.find_by(code: "a1").id.to_s
   end
 
   after(:all) do
@@ -36,11 +36,11 @@ describe "Places controller" do
       places = JSON.parse(last_response.body)
       expect(places.length).to eql(2)
       expect(places.first["id"]).not_to be_nil
-      expect(places.first["name"]).to eql("a1")
+      expect(places.first["code"]).to eql("a1")
       expect(places.first["description"]).to eql("Aula 1")
       expect(places.first["devices"].length).to eql(2)
       expect(places.first["devices"].first["id"]).not_to be_nil
-      expect(places.first["devices"].first["name"]).to eql("a1d1")
+      expect(places.first["devices"].first["code"]).to eql("a1d1")
       expect(places.first["devices"].first["description"]).to eql("Dispositivo 1")
     end
   end
@@ -52,11 +52,11 @@ describe "Places controller" do
       expect(last_response.body).not_to be_empty
       place = JSON.parse(last_response.body)
       expect(place["id"]).not_to be_nil
-      expect(place["name"]).to eql("a1")
+      expect(place["code"]).to eql("a1")
       expect(place["description"]).to eql("Aula 1")
       expect(place["devices"].length).to eql(2)
       expect(place["devices"].first["id"]).not_to be_nil
-      expect(place["devices"].first["name"]).to eql("a1d1")
+      expect(place["devices"].first["code"]).to eql("a1d1")
       expect(place["devices"].first["description"]).to eql("Dispositivo 1")
     end
 
@@ -69,7 +69,7 @@ describe "Places controller" do
   describe "#create" do
     it "successfully creates a place" do
       place_data = {
-        "name" => "tp1",
+        "code" => "tp1",
         "description" => "Test Place 1"
       }
       post "/places", place_data.to_json, @token_header
@@ -77,7 +77,7 @@ describe "Places controller" do
       expect(last_response.body).not_to be_empty
       place = JSON.parse(last_response.body)
       expect(place["id"]).not_to be_nil
-      expect(place["name"]).to eql(place_data["name"])
+      expect(place["code"]).to eql(place_data["code"])
       expect(place["description"]).to eql(place_data["description"])
     end
 
@@ -88,7 +88,7 @@ describe "Places controller" do
 
     it "fails to create a place with invalid fields" do
       place_data = {
-        "_name" => "tp1",
+        "_code" => "tp1",
         "_description" => "Test Place 1"
       }
       post "/places", {}, @token_header
@@ -97,7 +97,7 @@ describe "Places controller" do
 
     it "fails to create a place with invalid data" do
       place_data = {
-        "name" => 1332,
+        "code" => 1332,
         "description" => 31223
       }
       post "/places", {}, @token_header
@@ -108,7 +108,7 @@ describe "Places controller" do
   describe "#update" do
     it "successfully updates place's data" do
       patch_data = {
-        "name" => "A1",
+        "code" => "A1",
         "description" => "AULA 1"
       }
       patch "/places/" + @place_id, patch_data.to_json, @token_header
@@ -116,7 +116,7 @@ describe "Places controller" do
       expect(last_response.body).not_to be_empty
       place = JSON.parse(last_response.body)
       expect(place["id"]).not_to be_nil
-      expect(place["name"]).to eql(patch_data["name"])
+      expect(place["code"]).to eql(patch_data["code"])
       expect(place["description"]).to eql(patch_data["description"])
     end
 

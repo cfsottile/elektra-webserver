@@ -9,17 +9,17 @@ class Measure
     measures.map { |m| validate(m) }.all? && measures.each { |m| save(m) }
   end
 
-  def self.last_for(sensor_name)
+  def self.last_for(sensor_code)
     $db["last_measures"]
-      .find({sensor_name: sensor_name})
+      .find({sensor_code: sensor_code})
       .projection({_id: 0})
       .to_a
       .first
   end
 
-  def self.average_consumptions(sensor_name, raw_from, raw_to, precision)
+  def self.average_consumptions(sensor_code, raw_from, raw_to, precision)
     averaged_measures(
-      sensor_name,
+      sensor_code,
       instance_date(raw_from),
       instance_date(raw_to),
       precision
@@ -36,17 +36,17 @@ class Measure
     [
       ![
         measure,
-        measure[:sensor_name],
+        measure[:sensor_code],
         measure[:time],
         measure[:value]
       ].lazy.map(&:nil?).any?,
-      Sensor.exists?(name: measure[:sensor_name])
+      Sensor.exists?(code: measure[:sensor_code])
     ].all?
   end
 
   def self.update_last_measure(measure)
     $db[:last_measures].update_one(
-      {"sensor_name" => measure[:sensor_name]},
+      {"sensor_code" => measure[:sensor_code]},
       {"$set" => measure},
       upsert: true)
   end
@@ -86,7 +86,7 @@ class Measure
 
   def self.averaged_measures(id, from, to, precision)
     $db["measures"]
-      .find({sensor_name: id})
+      .find({sensor_code: id})
       .aggregate([
         { "$match" => { "time" => { "$gt" => from, "$lt" => to}}},
         { "$project" => {

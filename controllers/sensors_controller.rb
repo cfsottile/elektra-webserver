@@ -1,7 +1,7 @@
 class SensorsController < BaseController
   def initialize
     @model = Sensor
-    @permited_fields = %w(name description status device_id)
+    @permited_fields = %w(code description status device_id)
     @index_aggregation = %i(assoc last)
     @show_aggregation = %i(assoc last)
   end

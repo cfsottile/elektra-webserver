@@ -8,17 +8,17 @@ class Sensor < ActiveRecord::Base
 
   belongs_to :device
 
-  validates :name, presence: true, uniqueness: true, length: { in: 1..30 }
+  validates :code, presence: true, uniqueness: true, length: { in: 1..30 }
   validates :description, presence: true, length: { in: 1..50 }
   validates :status, inclusion: { within: [0,1] }
   validates :device, presence: true
 
   def average_consumptions(from, to, precision)
-    Measure.average_consumptions(name, from, to, precision)
+    Measure.average_consumptions(code, from, to, precision)
   end
 
   def last_measure
-    Measure.last_for(name)
+    Measure.last_for(code)
   end
 
   private

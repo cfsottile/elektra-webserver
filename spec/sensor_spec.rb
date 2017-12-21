@@ -15,7 +15,7 @@ describe Sensor do
     $db = Mongo::Client.new(["localhost:27017"], database: "iot_db_test")
     places_seed; devices_seed; sensors_seed
     @last_measures, @first_datetime, @last_datetime = measures_seed
-    @sensor = Sensor.find_by(name: "a5d1s1")
+    @sensor = Sensor.find_by(code: "a5d1s1")
   end
 
   after(:all) do
@@ -131,7 +131,7 @@ describe Sensor do
       hash = @sensor.to_hash
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
-      expect(hash["name"]).to eql("a5d1s1")
+      expect(hash["code"]).to eql("a5d1s1")
       expect(hash["description"]).to eql("Sensor 1")
     end
 
@@ -139,11 +139,11 @@ describe Sensor do
       hash = @sensor.to_hash(:assoc)
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
-      expect(hash["name"]).to eql("a5d1s1")
+      expect(hash["code"]).to eql("a5d1s1")
       expect(hash["description"]).to eql("Sensor 1")
       expect(hash["device"]).not_to be_nil
       expect(hash["device"]["id"]).not_to be_nil
-      expect(hash["device"]["name"]).to eql("a5d1")
+      expect(hash["device"]["code"]).to eql("a5d1")
       expect(hash["device"]["description"]).to eql("Dispositivo 1")
     end
 
@@ -151,7 +151,7 @@ describe Sensor do
       hash = @sensor.to_hash(:last)
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
-      expect(hash["name"]).to eql("a5d1s1")
+      expect(hash["code"]).to eql("a5d1s1")
       expect(hash["description"]).to eql("Sensor 1")
       expect(hash["last_measure"]).not_to be_nil
       expect(hash["last_measure"]["time"]).not_to be_nil
@@ -162,11 +162,11 @@ describe Sensor do
       hash = @sensor.to_hash(:assoc, :last)
       expect(hash).not_to be_nil
       expect(hash["id"]).not_to be_nil
-      expect(hash["name"]).to eql("a5d1s1")
+      expect(hash["code"]).to eql("a5d1s1")
       expect(hash["description"]).to eql("Sensor 1")
       expect(hash["device"]).not_to be_nil
       expect(hash["device"]["id"]).not_to be_nil
-      expect(hash["device"]["name"]).to eql("a5d1")
+      expect(hash["device"]["code"]).to eql("a5d1")
       expect(hash["device"]["description"]).to eql("Dispositivo 1")
       expect(hash["last_measure"]).not_to be_nil
       expect(hash["last_measure"]["time"]).not_to be_nil

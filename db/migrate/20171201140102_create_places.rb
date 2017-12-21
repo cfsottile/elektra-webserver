@@ -1,9 +1,9 @@
 class CreatePlaces < ActiveRecord::Migration[5.1]
   def change
     create_table :places do |t|
-      t.string :name
+      t.string :code
       t.string :description
     end
-    add_index :places, :name
+    add_index :places, :code
   end
 end

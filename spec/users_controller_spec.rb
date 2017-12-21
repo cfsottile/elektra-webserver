@@ -4,18 +4,25 @@ require_relative "../app"
 require_relative "../models/user"
 require_relative "../models/sensor"
 require_relative "../controllers/users_controller"
-require "bundler"
+require_relative "helpers"
 require "rspec"
 require "rack/test"
 require "json"
 
-Bundler.require
-
 describe "Users controller" do
   include Rack::Test::Methods
+  include Helpers
 
   def app
     App
+  end
+
+  before(:all) do
+    users_seed; places_seed
+  end
+
+  after(:all) do
+    drop_users; drop_places
   end
 
   describe "#login" do

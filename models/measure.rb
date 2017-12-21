@@ -41,8 +41,9 @@ class Measure
     [
       [measure, :nil?, "the measure object can not be nil"],
       [measure["sensor_code"], :nil?, "the sensor's code can not be nil"],
-      [measure["time"], :nil?, "the sensor's time can not be nil"],
-      [measure["value"], :nil?, "the sensor's value can not be nil"],
+      [measure["time"], :nil?, "the measure's time can not be nil"],
+      [measure["time"], :!, "the measure's time format is incorrect, try ISO8601 or RFC3339"],
+      [measure["value"], :nil?, "the measure's value can not be nil"],
       [Sensor.exists?(code: measure["sensor_code"]), :!, "the code does not correspond to an existing sensor"]
     ].select { |e| e[0].send(e[1]) }.map(&:last).take(1)
   end

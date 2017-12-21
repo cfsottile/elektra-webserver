@@ -9,7 +9,7 @@ require "json"
 require "pry"
 require "kaminari/activerecord"
 
-describe "Places controller" do
+describe PlacesController do
   include Rack::Test::Methods
   include Helpers
 

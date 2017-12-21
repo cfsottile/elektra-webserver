@@ -9,7 +9,7 @@ require "rspec"
 require "rack/test"
 require "json"
 
-describe "Users controller" do
+describe UsersController do
   include Rack::Test::Methods
   include Helpers
 

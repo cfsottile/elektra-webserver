@@ -5,12 +5,12 @@ default: &default
 
 development:
   <<: *default
-  database: db/measures_db_dev.sqlite3
+  database: db/elektra_db_dev.sqlite3
 
 test:
   <<: *default
-  database: db/measures_db_test.sqlite3
+  database: db/elektra_db_test.sqlite3
 
 production:
   <<: *default
-  database: db/measures_db.sqlite3
+  database: db/elektra_db.sqlite3

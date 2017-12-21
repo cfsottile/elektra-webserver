@@ -1,7 +1,7 @@
 require "mongo"
 Mongo::Logger.logger.level = Logger::FATAL
 
-db = Mongo::Client.new(["localhost:27017"], database: "iot_db")
+db = Mongo::Client.new(["localhost:27017"], database: "elektra_db_test")
 
 values = [3.5,3.6,3.7,3.8,3.9,4.0,4.1]
 sensor_codes = ["a5d1s1"]

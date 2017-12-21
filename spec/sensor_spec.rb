@@ -19,7 +19,7 @@ describe Sensor do
   end
 
   after(:all) do
-    drop_places; drop_devices; drop_sensors; measures_drop
+    drop_places; drop_devices; drop_sensors; drop_measures
   end
 
   describe "#last_measure" do

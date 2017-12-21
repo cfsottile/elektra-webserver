@@ -5,7 +5,7 @@ require_relative "../models/sensor"
 class EventSourceHandler
   def initialize(app)
     @app = app
-    $db = Mongo::Client.new(["localhost:27017"], database: "iotdb")
+    $db = Mongo::Client.new(["localhost:27017"], database: "iot_db")
   end
 
   def call(env)

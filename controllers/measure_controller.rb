@@ -1,28 +1,15 @@
 class MeasureController
-  def self.store_one(env)
-    measure = self.parse_json_one(env)
-    Measure.json_store_one(measure)
+  def self.store(measure)
+    if Measure.store(fix_time(measure)) then 201 else 400
   end
-  
-  def self.store_many(env)
-    measures = self.parse_json_many(env)
-    Measure.json_store_many(measures)
+
+  def self.store_many(measures)
+    if Measure.store_many(measures.map(&:fix_time)) then 201 else 400
   end
-  
+
   private
-  def fix_measure(measure)
-    measure["time"] = Time.at(measure["time"])
+  def fix_time(measure)
+    measure["time"] = DateTime.parse(measure["time"])
     measure
   end
-
-  def self.parse_json_one(env)
-    measure = JSON.parse(Rack::Request.new(env).body.read)
-    self.fix_measure(measure)
-  end
-
-  def self.parse_json_many(env)
-    measures = JSON.parse(Rack::Request.new(env).body.read)
-    measures.map { |m| self.fix_measure(m) }
-  end
 end
-    

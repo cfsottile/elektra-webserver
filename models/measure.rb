@@ -2,14 +2,11 @@ require_relative "sensor"
 
 class Measure
   def self.store(measure)
-    if self.validate(measure)
-      $db[:measures].insert_one(measure)
-      self.update_last_measure(measure)
-    end
+    validate(measure) && save(measure)
   end
 
   def self.store_many(measures)
-    measures.each { |m| self.store(m) }
+    measures.map { |m| validate(m) }.all? && measures.each { |m| save(m) }
   end
 
   def self.last_for(sensor_name)
@@ -30,21 +27,26 @@ class Measure
   end
 
   private
+  def self.save(measure)
+    $db[:measures].insert_one(measure)
+    self.update_last_measure(measure)
+  end
+
   def self.validate(measure)
     [
       ![
         measure,
-        measure["sensor_name"],
-        measure["time"],
-        measure["value"]
+        measure[:sensor_name],
+        measure[:time],
+        measure[:value]
       ].lazy.map(&:nil?).any?,
-      Sensor.exists(name: measure["sensor_name"])
+      Sensor.exists?(name: measure[:sensor_name])
     ].all?
   end
 
   def self.update_last_measure(measure)
     $db[:last_measures].update_one(
-      {"sensor_name" => measure["sensor_name"]},
+      {"sensor_name" => measure[:sensor_name]},
       {"$set" => measure},
       upsert: true)
   end

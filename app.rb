@@ -91,11 +91,11 @@ class App < Sinatra::Base
   end
 
   post "/measures/one", auth: %i(device) do
-    MeasureController.store(env)
+    MeasureController.store(parse_body)
   end
 
   post "/measures/many", auth: %i(device) do
-    MeasureController.store_many(env)
+    MeasureController.store_many(parse_body)
   end
 
   get "/places", auth: %i(admin user) do

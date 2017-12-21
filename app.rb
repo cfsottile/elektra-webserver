@@ -2,6 +2,7 @@ require_relative "controllers/users_controller"
 require_relative "controllers/places_controller"
 require_relative "controllers/devices_controller"
 require_relative "controllers/sensors_controller"
+require_relative "controllers/measures_controller"
 
 class App < Sinatra::Base
   set(:auth) do |*roles|
@@ -85,11 +86,11 @@ class App < Sinatra::Base
   end
 
   post "/measures/one", auth: %i(device) do
-    MeasureController.store(parse_body)
+    MeasuresController.store(parse_body)
   end
 
   post "/measures/many", auth: %i(device) do
-    MeasureController.store_many(parse_body)
+    MeasuresController.store_many(parse_body)
   end
 
   get "/places", auth: %i(admin user) do

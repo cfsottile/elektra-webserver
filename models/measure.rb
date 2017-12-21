@@ -36,17 +36,17 @@ class Measure
     [
       ![
         measure,
-        measure[:sensor_code],
-        measure[:time],
-        measure[:value]
+        measure["sensor_code"],
+        measure["time"],
+        measure["value"]
       ].lazy.map(&:nil?).any?,
-      Sensor.exists?(code: measure[:sensor_code])
+      Sensor.exists?(code: measure["sensor_code"])
     ].all?
   end
 
   def self.update_last_measure(measure)
     $db[:last_measures].update_one(
-      {"sensor_code" => measure[:sensor_code]},
+      {"sensor_code" => measure["sensor_code"]},
       {"$set" => measure},
       upsert: true)
   end

@@ -23,13 +23,13 @@ describe Measure do
   describe "#store" do
     it "stores a well formed request" do
       expect(
-        Measure.store({ sensor_code: "a5d1s1", time: DateTime.now, value: 3.9 })
+        Measure.store({ "sensor_code" => "a5d1s1", "time" => DateTime.now, "value" => 3.9 })
       ).to be_truthy
     end
 
     it "refuses a bad request" do
       expect(
-        Measure.store({ sensor_code: "aaaaaa", time: DateTime.now, value: 3.9 })
+        Measure.store({ "sensor_code" => "aaaaaa", "time" => DateTime.now, "value" => 3.9 })
       ).to be_falsey
     end
   end
@@ -40,7 +40,7 @@ describe Measure do
       first_datetime = DateTime.now - Rational(1,24*60*60)
       last_datetime = DateTime.now
       dates = first_datetime.step(last_datetime, Rational(1,24*60*120))
-      measures = dates.map { |d| { sensor_code: "a5d1s1", time: d, value: values.sample } }
+      measures = dates.map { |d| { "sensor_code" => "a5d1s1", "time" => d, "value" => values.sample } }
       expect(
         Measure.store_many(measures)
       ).to be_truthy
@@ -51,7 +51,7 @@ describe Measure do
       first_datetime = DateTime.now - Rational(1,24*60*60)
       last_datetime = DateTime.now
       dates = first_datetime.step(last_datetime, Rational(1,24*60*120))
-      measures = dates.map { |d| { sensor_code: "aaaaaa", time: d, value: values.sample } }
+      measures = dates.map { |d| { "sensor_code" => "aaaaaa", "time" => d, "value" => values.sample } }
       expect(
         Measure.store_many(measures)
       ).to be_falsey

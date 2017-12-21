@@ -3,13 +3,7 @@ require_relative "controllers/places_controller"
 require_relative "controllers/devices_controller"
 require_relative "controllers/sensors_controller"
 
-# require 'sinatra'
-# require 'sinatra/base'
-# require "sinatra/activerecord"
-
 class App < Sinatra::Base
-  # register Sinatra::ActiveRecordExtension
-
   set(:auth) do |*roles|
     condition do
       if env["HTTP_AUTHORIZATION"].nil? then halt 401 end

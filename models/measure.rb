@@ -44,7 +44,7 @@ class Measure
       [measure["time"], :nil?, "the sensor's time can not be nil"],
       [measure["value"], :nil?, "the sensor's value can not be nil"],
       [Sensor.exists?(code: measure["sensor_code"]), :!, "the code does not correspond to an existing sensor"]
-    ].select { |e| e[0].send(e[1]) }.map(&:last)
+    ].select { |e| e[0].send(e[1]) }.map(&:last).take(1)
   end
 
   def self.update_last_measure(measure)

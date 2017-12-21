@@ -30,6 +30,11 @@ describe Measure do
       errors = Measure.store({ "sensor_code" => "aaaaaa", "time" => DateTime.now, "value" => 3.9 })
       expect(errors.size).to eql(1)
     end
+
+    it "refuses an empty request" do
+      errors = Measure.store({})
+      expect(errors.size).to eql(1)
+    end
   end
 
   describe "#store_many" do
@@ -55,6 +60,16 @@ describe Measure do
         expect(e[0]["sensor_code"]).not_to be_nil
         expect(e[0]["time"]).not_to be_nil
         expect(e[0]["value"]).not_to be_nil
+        expect(e[1].size).to eql(1)
+      end
+    end
+
+    it "refuses an empty request" do
+      measures = [{}] * 100
+      errors = Measure.store_many(measures)
+      expect(errors.size).to eql(measures.size)
+      errors.each do |e|
+        expect(e[0]).to eql({})
         expect(e[1].size).to eql(1)
       end
     end
